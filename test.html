@@ -365,7 +365,7 @@
 
         function checkTimer() {
             const timerValue = parseFloat(document.getElementById('timer').textContent);
-            if (Math.abs(timerValue - 42.0) < 0.1) {
+            if (Math.abs(timerValue - 42.0) < 2) {
                 nextLevel();
             } else {
                 wrongChoice();

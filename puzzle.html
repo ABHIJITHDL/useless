@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    :root {
+      --floating-speed: 8s;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #1a1a1a;
+    }
+    
+    .puzzle-container {
+      position: relative;
+      width: 800px;
+      height: 600px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    
+    .puzzle-piece {
+      position: absolute;
+      cursor: grab;
+      transition: box-shadow 0.3s ease;
+      animation: float var(--floating-speed) infinite;
+      animation-timing-function: ease-in-out;
+      user-select: none;
+    }
+
+    .puzzle-piece.dragging {
+      cursor: grabbing;
+      z-index: 1000;
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
+      animation: none;
+    }
+
+    .puzzle-piece.placed {
+      animation: none;
+      transition: transform 0.3s ease;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      25% {
+        transform: translate(50px, -30px) rotate(5deg);
+      }
+      50% {
+        transform: translate(0, -60px) rotate(0deg);
+      }
+      75% {
+        transform: translate(-50px, -30px) rotate(-5deg);
+      }
+      100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+    }
+
+    .success-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      display: none;
+      z-index: 2000;
+    }
+
+    .success-modal.show {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="puzzle-container" id="puzzleContainer"></div>
+  
+  <div class="success-modal" id="successModal">
+    <h2>Puzzle Completed!</h2>
+    <p>Redirecting...</p>
+  </div>
+
+  <script>
+    class PuzzleGame {
+      constructor(imagePath, piecesX, piecesY) {
+        this.imagePath = imagePath;
+        this.piecesX = piecesX;
+        this.piecesY = piecesY;
+        this.pieces = [];
+        this.container = document.getElementById('puzzleContainer');
+        this.loadImage();
+      }
+
+      loadImage() {
+        const img = new Image();
+        img.onload = () => {
+          this.imageWidth = img.width;
+          this.imageHeight = img.height;
+          this.initializePuzzle();
+        };
+        img.src = this.imagePath;
+      }
+
+      initializePuzzle() {
+        const containerAspectRatio = this.container.offsetWidth / this.container.offsetHeight;
+        const imageAspectRatio = this.imageWidth / this.imageHeight;
+        
+        let pieceWidth, pieceHeight;
+        
+        if (containerAspectRatio > imageAspectRatio) {
+          pieceHeight = this.container.offsetHeight / this.piecesY;
+          pieceWidth = (pieceHeight * this.imageWidth) / this.imageHeight / this.piecesX;
+        } else {
+          pieceWidth = this.container.offsetWidth / this.piecesX;
+          pieceHeight = (pieceWidth * this.imageHeight) / this.imageWidth / this.piecesY;
+        }
+
+        for(let y = 0; y < this.piecesY; y++) {
+          for(let x = 0; x < this.piecesX; x++) {
+            const piece = document.createElement('div');
+            piece.className = 'puzzle-piece';
+            piece.style.width = pieceWidth + 'px';
+            piece.style.height = pieceHeight + 'px';
+            
+            // Set unique animation delay for each piece
+            piece.style.animationDelay = `${Math.random() * -8}s`;
+            
+            // Calculate background position to show correct part of image
+            const bgX = (x / this.piecesX) * 100;
+            const bgY = (y / this.piecesY) * 100;
+            
+            piece.style.backgroundImage = `url(${this.imagePath})`;
+            piece.style.backgroundSize = `${this.piecesX * 100}% ${this.piecesY * 100}%`;
+            piece.style.backgroundPosition = `${bgX}% ${bgY}%`;
+
+            // Store correct position
+            piece.dataset.correctX = x * pieceWidth;
+            piece.dataset.correctY = y * pieceHeight;
+
+            // Set random initial position
+            piece.style.left = Math.random() * (this.container.offsetWidth - pieceWidth) + 'px';
+            piece.style.top = Math.random() * (this.container.offsetHeight - pieceHeight) + 'px';
+
+            this.setupDragListeners(piece);
+            this.container.appendChild(piece);
+            this.pieces.push(piece);
+          }
+        }
+      }
+
+      setupDragListeners(piece) {
+        let isDragging = false;
+        let currentX;
+        let currentY;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
+
+        const dragStart = (e) => {
+          if (e.type === "touchstart") {
+            initialX = e.touches[0].clientX - xOffset;
+            initialY = e.touches[0].clientY - yOffset;
+          } else {
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+          }
+
+          if (e.target === piece) {
+            isDragging = true;
+            piece.classList.add('dragging');
+          }
+        };
+
+        const drag = (e) => {
+          if (isDragging) {
+            e.preventDefault();
+
+            if (e.type === "touchmove") {
+              currentX = e.touches[0].clientX - initialX;
+              currentY = e.touches[0].clientY - initialY;
+            } else {
+              currentX = e.clientX - initialX;
+              currentY = e.clientY - initialY;
+            }
+
+            xOffset = currentX;
+            yOffset = currentY;
+
+            const rect = this.container.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            piece.style.left = x - piece.offsetWidth / 2 + 'px';
+            piece.style.top = y - piece.offsetHeight / 2 + 'px';
+
+            this.checkPosition(piece);
+          }
+        };
+
+        const dragEnd = () => {
+          initialX = currentX;
+          initialY = currentY;
+          isDragging = false;
+          piece.classList.remove('dragging');
+          this.checkCompletion();
+        };
+
+        piece.addEventListener('touchstart', dragStart, false);
+        piece.addEventListener('touchmove', drag, false);
+        piece.addEventListener('touchend', dragEnd, false);
+        piece.addEventListener('mousedown', dragStart, false);
+        document.addEventListener('mousemove', drag, false);
+        document.addEventListener('mouseup', dragEnd, false);
+      }
+
+      checkPosition(piece) {
+        const tolerance = 30; // pixels
+        const correctX = parseFloat(piece.dataset.correctX);
+        const correctY = parseFloat(piece.dataset.correctY);
+        const currentX = parseFloat(piece.style.left);
+        const currentY = parseFloat(piece.style.top);
+
+        if (Math.abs(currentX - correctX) < tolerance && 
+            Math.abs(currentY - correctY) < tolerance) {
+          piece.style.left = correctX + 'px';
+          piece.style.top = correctY + 'px';
+          piece.classList.add('placed');
+        } else {
+          piece.classList.remove('placed');
+        }
+      }
+
+      checkCompletion() {
+        const allPlaced = this.pieces.every(piece => piece.classList.contains('placed'));
+        if (allPlaced) {
+          setTimeout(() => {
+            document.getElementById('successModal').classList.add('show');
+            setTimeout(() => {
+              window.location.href = 'next-page.html'; // Replace with your next page URL
+            }, 2000);
+          }, 500);
+        }
+      }
+    }
+
+    // Initialize the puzzle when the page loads
+    window.addEventListener('load', () => {
+      new PuzzleGame('puzzle.jpg', 3, 3); // 3x3 grid, adjust as needed
+    });
+  </script>
+</body>
+</html>
