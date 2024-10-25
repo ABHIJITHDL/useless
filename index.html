@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Find the Bat - System Loading...</title>
+    <style>
+        :root {
+            --bg-primary: #0f1117;
+            --bg-secondary: #1a1d24;
+            --accent-purple: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .loading-container {
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--bg-secondary);
+            border-top: 5px solid var(--accent-purple);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        .progress-bar {
+            width: 300px;
+            height: 4px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: var(--accent-purple);
+            transition: width 0.3s ease;
+        }
+
+        .loading-text {
+            color: var(--text-secondary);
+            margin: 10px 0;
+            min-height: 24px;
+        }
+
+        .loading-subtext {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .percentage {
+            color: var(--accent-purple);
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .content {
+            display: none;
+            width: 100%;
+        }
+
+        /* Your original CSS here */
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-container">
+        <div class="spinner"></div>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        <div class="loading-text">Initializing useless loading screen...</div>
+        <div class="loading-subtext">This might take a while... or not</div>
+        <div class="percentage">0%</div>
+    </div>
+
+    <!-- Main Content (hidden initially) -->
+    <div class="content">
+        <!-- Your original content here -->
+    </div>
+
+    <script>
+        const funnyLoadingMessages = [
+            "Installing unnecessary loading bar...",
+            "Uninstalling previous uninstallation...",
+            "Loading pixels individually...",
+            "Downloading more loading time...",
+            "Calculating the weight of invisible objects...",
+            "Teaching algorithms to procrastinate...",
+            "Optimizing inefficiency...",
+            "Generating random randomness...",
+            "Deleting unused whitespace...",
+            "Reticulating completely useless splines...",
+            "Preparing to prepare preparation...",
+            "Loading loading screen loading screen...",
+            "Simulating productivity...",
+            "Performing unnecessary calculations...",
+            "Generating procedural procrastination...",
+            "Downloading more loading bars...",
+            "Increasing loading time artificially...",
+            "Counting to infinity... twice...",
+            "Installing digital paperclips...",
+            "Untangling imaginary cables...",
+            "Sorting zeros and ones alphabetically...",
+            "Dividing by zero... recovering...",
+            "Adding delays to delayed delays...",
+            "Buffering the buffer...",
+            "Loading useless facts about loading..."
+        ];
+
+        const funnySubMessages = [
+            "ERROR: Success successfully failed",
+            "Time remaining: sometime between now and never",
+            "Pro tip: This loading screen is purely decorative",
+            "Loading might finish faster if you close your eyes",
+            "Plot twist: Nothing is actually loading",
+            "Warning: Excessive patience detected",
+            "Fun fact: This message is not fun",
+            "Loading screen experiencing existential crisis",
+            "Quantum loading state: Both done and not done",
+            "Achievement unlocked: Waited for no reason"
+        ];
+
+        const loadingText = document.querySelector('.loading-text');
+        const loadingSubtext = document.querySelector('.loading-subtext');
+        const progressBar = document.querySelector('.progress');
+        const percentageText = document.querySelector('.percentage');
+        const loadingContainer = document.querySelector('.loading-container');
+        const content = document.querySelector('.content');
+
+        let progress = 0;
+        let messageIndex = 0;
+        let subMessageIndex = 0;
+
+        function updateLoadingMessage() {
+            loadingText.textContent = funnyLoadingMessages[messageIndex];
+            messageIndex = (messageIndex + 1) % funnyLoadingMessages.length;
+        }
+
+        function updateSubMessage() {
+            loadingSubtext.textContent = funnySubMessages[subMessageIndex];
+            subMessageIndex = (subMessageIndex + 1) % funnySubMessages.length;
+        }
+
+        function fakeLoading() {
+            if (progress < 100) {
+                // Random progress increment between 0.5 and 3
+                progress += Math.random() * 2.5 + 0.5;
+                
+                // Sometimes go backwards for fun
+                if (Math.random() < 0.1 && progress > 10) {
+                    progress -= Math.random() * 5;
+                }
+                
+                if (progress > 100) progress = 100;
+                if (progress < 0) progress = 0;
+
+                progressBar.style.width = `${progress}%`;
+                percentageText.textContent = `${Math.round(progress)}%`;
+
+                // Update messages randomly
+                if (Math.random() < 0.2) {
+                    updateLoadingMessage();
+                }
+                if (Math.random() < 0.1) {
+                    updateSubMessage();
+                }
+
+                // Random delay between updates (100-500ms)
+                setTimeout(fakeLoading, Math.random() * 400 + 100);
+            } else {
+                // Loading complete
+                setTimeout(() => {
+                    loadingContainer.style.display = 'none';
+                    content.style.display = 'block';
+                    window.location.href=("bat.html");
+                }, 1000);
+            }
+        }
+
+        // Start with initial messages
+        updateLoadingMessage();
+        updateSubMessage();
+
+        // Begin loading simulation with a slight initial delay
+        setTimeout(fakeLoading, 1500);
+
+    </script>
+</body>
+</html>

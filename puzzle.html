@@ -3,7 +3,7 @@
 <head>
   <style>
     :root {
-      --floating-speed: 8s;
+      --floating-speed: 4s;
     }
 
     body {
@@ -13,12 +13,11 @@
       justify-content: center;
       align-items: center;
       background: #1a1a1a;
+      padding: 20px;
     }
     
     .puzzle-container {
       position: relative;
-      width: 800px;
-      height: 600px;
       background: rgba(255,255,255,0.1);
       border-radius: 10px;
       overflow: hidden;
@@ -27,39 +26,21 @@
     .puzzle-piece {
       position: absolute;
       cursor: grab;
-      transition: box-shadow 0.3s ease;
-      animation: float var(--floating-speed) infinite;
-      animation-timing-function: ease-in-out;
       user-select: none;
     }
 
-    .puzzle-piece.dragging {
-      cursor: grabbing;
-      z-index: 1000;
-      box-shadow: 0 0 20px rgba(255,255,255,0.3);
-      animation: none;
-    }
-
-    .puzzle-piece.placed {
-      animation: none;
-      transition: transform 0.3s ease;
+    .puzzle-piece:not(.locked) {
+      animation: float var(--floating-speed) infinite;
+      animation-direction: alternate;
+      animation-timing-function: ease-in-out;
     }
 
     @keyframes float {
       0% {
-        transform: translate(0, 0) rotate(0deg);
-      }
-      25% {
-        transform: translate(50px, -30px) rotate(5deg);
-      }
-      50% {
-        transform: translate(0, -60px) rotate(0deg);
-      }
-      75% {
-        transform: translate(-50px, -30px) rotate(-5deg);
+        transform: translate(var(--startX, 0px), var(--startY, 0px)) rotate(var(--startRotate, 0deg));
       }
       100% {
-        transform: translate(0, 0) rotate(0deg);
+        transform: translate(var(--endX, 50px), var(--endY, 50px)) rotate(var(--endRotate, 10deg));
       }
     }
 
@@ -78,12 +59,15 @@
 
     .success-modal.show {
       display: block;
-      animation: fadeIn 0.5s ease;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .locked {
+      animation: none;
+      transition: all 0.3s ease;
+    }
+
+    .dragging {
+      z-index: 1000;
     }
   </style>
 </head>
@@ -92,15 +76,16 @@
   
   <div class="success-modal" id="successModal">
     <h2>Puzzle Completed!</h2>
-    <p>Redirecting...</p>
+    <p>Well done! Redirecting...</p>
   </div>
 
   <script>
     class PuzzleGame {
-      constructor(imagePath, piecesX, piecesY) {
+      constructor(imagePath, rows, cols, nextPage) {
         this.imagePath = imagePath;
-        this.piecesX = piecesX;
-        this.piecesY = piecesY;
+        this.rows = rows;
+        this.cols = cols;
+        this.nextPage = nextPage;
         this.pieces = [];
         this.container = document.getElementById('puzzleContainer');
         this.loadImage();
@@ -109,159 +94,162 @@
       loadImage() {
         const img = new Image();
         img.onload = () => {
-          this.imageWidth = img.width;
-          this.imageHeight = img.height;
-          this.initializePuzzle();
+          const scaleFactor = 0.5; // Scale down the image to 50%
+          this.container.style.width = `${img.width * scaleFactor}px`;
+          this.container.style.height = `${img.height * scaleFactor}px`;
+          this.createPieces(img, scaleFactor);
         };
         img.src = this.imagePath;
       }
 
-      initializePuzzle() {
-        const containerAspectRatio = this.container.offsetWidth / this.container.offsetHeight;
-        const imageAspectRatio = this.imageWidth / this.imageHeight;
+      createPieces(img, scaleFactor) {
+        const pieceWidth = (img.width * scaleFactor) / this.cols;
+        const pieceHeight = (img.height * scaleFactor) / this.rows;
         
-        let pieceWidth, pieceHeight;
-        
-        if (containerAspectRatio > imageAspectRatio) {
-          pieceHeight = this.container.offsetHeight / this.piecesY;
-          pieceWidth = (pieceHeight * this.imageWidth) / this.imageHeight / this.piecesX;
-        } else {
-          pieceWidth = this.container.offsetWidth / this.piecesX;
-          pieceHeight = (pieceWidth * this.imageHeight) / this.imageWidth / this.piecesY;
-        }
+        for(let row = 0; row < this.rows; row++) {
+          for(let col = 0; col < this.cols; col++) {
+            const piece = document.createElement('canvas');
+            piece.width = pieceWidth;
+            piece.height = pieceHeight;
+            
+            const ctx = piece.getContext('2d');
+            ctx.drawImage(img, 
+              col * pieceWidth / scaleFactor, row * pieceHeight / scaleFactor, 
+              pieceWidth / scaleFactor, pieceHeight / scaleFactor,
+              0, 0, pieceWidth, pieceHeight
+            );
 
-        for(let y = 0; y < this.piecesY; y++) {
-          for(let x = 0; x < this.piecesX; x++) {
-            const piece = document.createElement('div');
-            piece.className = 'puzzle-piece';
-            piece.style.width = pieceWidth + 'px';
-            piece.style.height = pieceHeight + 'px';
+            const pieceDiv = document.createElement('div');
+            pieceDiv.className = 'puzzle-piece';
+            pieceDiv.style.width = `${pieceWidth}px`;
+            pieceDiv.style.height = `${pieceHeight}px`;
+            pieceDiv.style.backgroundImage = `url(${piece.toDataURL()})`;
+
+            // Set random float animation parameters
+            const randomX = Math.random() * 100;
+            const randomY = Math.random() * 100;
+            const randomRotate = Math.random() * 20 - 10;
             
-            // Set unique animation delay for each piece
-            piece.style.animationDelay = `${Math.random() * -8}s`;
+            pieceDiv.style.setProperty('--startX', `${randomX}px`);
+            pieceDiv.style.setProperty('--startY', `${randomY}px`);
+            pieceDiv.style.setProperty('--endX', `${-randomX}px`);
+            pieceDiv.style.setProperty('--endY', `${-randomY}px`);
+            pieceDiv.style.setProperty('--startRotate', `${randomRotate}deg`);
+            pieceDiv.style.setProperty('--endRotate', `${-randomRotate}deg`);
             
-            // Calculate background position to show correct part of image
-            const bgX = (x / this.piecesX) * 100;
-            const bgY = (y / this.piecesY) * 100;
-            
-            piece.style.backgroundImage = `url(${this.imagePath})`;
-            piece.style.backgroundSize = `${this.piecesX * 100}% ${this.piecesY * 100}%`;
-            piece.style.backgroundPosition = `${bgX}% ${bgY}%`;
+            // Set animation delay
+            pieceDiv.style.animationDelay = `${Math.random() * -4}s`;
 
             // Store correct position
-            piece.dataset.correctX = x * pieceWidth;
-            piece.dataset.correctY = y * pieceHeight;
+            pieceDiv.dataset.correctCol = col;
+            pieceDiv.dataset.correctRow = row;
+            pieceDiv.dataset.locked = "false";
 
             // Set random initial position
-            piece.style.left = Math.random() * (this.container.offsetWidth - pieceWidth) + 'px';
-            piece.style.top = Math.random() * (this.container.offsetHeight - pieceHeight) + 'px';
+            const randomLeft = Math.random() * (this.container.clientWidth - pieceWidth);
+            const randomTop = Math.random() * (this.container.clientHeight - pieceHeight);
+            pieceDiv.style.left = `${randomLeft}px`;
+            pieceDiv.style.top = `${randomTop}px`;
 
-            this.setupDragListeners(piece);
-            this.container.appendChild(piece);
-            this.pieces.push(piece);
+            this.addDragListeners(pieceDiv);
+            this.container.appendChild(pieceDiv);
+            this.pieces.push(pieceDiv);
           }
         }
       }
 
-      setupDragListeners(piece) {
+      addDragListeners(piece) {
         let isDragging = false;
         let currentX;
         let currentY;
         let initialX;
         let initialY;
-        let xOffset = 0;
-        let yOffset = 0;
 
         const dragStart = (e) => {
-          if (e.type === "touchstart") {
-            initialX = e.touches[0].clientX - xOffset;
-            initialY = e.touches[0].clientY - yOffset;
-          } else {
-            initialX = e.clientX - xOffset;
-            initialY = e.clientY - yOffset;
-          }
-
-          if (e.target === piece) {
-            isDragging = true;
-            piece.classList.add('dragging');
-          }
-        };
-
-        const drag = (e) => {
-          if (isDragging) {
-            e.preventDefault();
-
-            if (e.type === "touchmove") {
-              currentX = e.touches[0].clientX - initialX;
-              currentY = e.touches[0].clientY - initialY;
-            } else {
-              currentX = e.clientX - initialX;
-              currentY = e.clientY - initialY;
-            }
-
-            xOffset = currentX;
-            yOffset = currentY;
-
-            const rect = this.container.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            piece.style.left = x - piece.offsetWidth / 2 + 'px';
-            piece.style.top = y - piece.offsetHeight / 2 + 'px';
-
-            this.checkPosition(piece);
-          }
+          if(piece.dataset.locked === "true") return;
+          
+          const event = e.type === "mousedown" ? e : e.touches[0];
+          initialX = event.clientX - piece.offsetLeft;
+          initialY = event.clientY - piece.offsetTop;
+          
+          isDragging = true;
+          piece.classList.add('dragging');
         };
 
         const dragEnd = () => {
-          initialX = currentX;
-          initialY = currentY;
+          if(!isDragging) return;
+          
           isDragging = false;
           piece.classList.remove('dragging');
+          this.checkPosition(piece);
           this.checkCompletion();
         };
 
-        piece.addEventListener('touchstart', dragStart, false);
-        piece.addEventListener('touchmove', drag, false);
-        piece.addEventListener('touchend', dragEnd, false);
-        piece.addEventListener('mousedown', dragStart, false);
-        document.addEventListener('mousemove', drag, false);
-        document.addEventListener('mouseup', dragEnd, false);
+        const drag = (e) => {
+          if(!isDragging) return;
+          e.preventDefault();
+
+          const event = e.type === "mousemove" ? e : e.touches[0];
+          currentX = event.clientX - initialX;
+          currentY = event.clientY - initialY;
+
+          piece.style.left = `${currentX}px`;
+          piece.style.top = `${currentY}px`;
+        };
+
+        piece.addEventListener('mousedown', dragStart);
+        piece.addEventListener('touchstart', dragStart);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('touchmove', drag);
+        document.addEventListener('mouseup', dragEnd);
+        document.addEventListener('touchend', dragEnd);
       }
 
       checkPosition(piece) {
-        const tolerance = 30; // pixels
-        const correctX = parseFloat(piece.dataset.correctX);
-        const correctY = parseFloat(piece.dataset.correctY);
-        const currentX = parseFloat(piece.style.left);
-        const currentY = parseFloat(piece.style.top);
+        const pieceRect = piece.getBoundingClientRect();
+        const tolerance = 20; // Snap distance in pixels
 
-        if (Math.abs(currentX - correctX) < tolerance && 
-            Math.abs(currentY - correctY) < tolerance) {
-          piece.style.left = correctX + 'px';
-          piece.style.top = correctY + 'px';
-          piece.classList.add('placed');
-        } else {
-          piece.classList.remove('placed');
+        for(let otherPiece of this.pieces) {
+          if(otherPiece === piece) continue;
+
+          const otherRect = otherPiece.getBoundingClientRect();
+          const correctCol = parseInt(piece.dataset.correctCol);
+          const correctRow = parseInt(piece.dataset.correctRow);
+          const otherCol = parseInt(otherPiece.dataset.correctCol);
+          const otherRow = parseInt(otherPiece.dataset.correctRow);
+
+          // Check if pieces should be adjacent
+          if(Math.abs(correctCol - otherCol) + Math.abs(correctRow - otherRow) === 1) {
+            const expectedX = otherRect.left + (correctCol - otherCol) * pieceRect.width;
+            const expectedY = otherRect.top + (correctRow - otherRow) * pieceRect.height;
+
+            if(Math.abs(pieceRect.left - expectedX) < tolerance && 
+               Math.abs(pieceRect.top - expectedY) < tolerance) {
+              // Snap to position
+              piece.style.left = `${expectedX - this.container.getBoundingClientRect().left}px`;
+              piece.style.top = `${expectedY - this.container.getBoundingClientRect().top}px`;
+              piece.dataset.locked = "true";
+              piece.classList.add('locked');
+            }
+          }
         }
       }
 
       checkCompletion() {
-        const allPlaced = this.pieces.every(piece => piece.classList.contains('placed'));
-        if (allPlaced) {
+        const allLocked = this.pieces.every(piece => piece.dataset.locked === "true");
+        if(allLocked) {
+          document.getElementById('successModal').classList.add('show');
           setTimeout(() => {
-            document.getElementById('successModal').classList.add('show');
-            setTimeout(() => {
-              window.location.href = 'next-page.html'; // Replace with your next page URL
-            }, 2000);
-          }, 500);
+            window.location.href = this.nextPage;
+          }, 1500);
         }
       }
     }
 
     // Initialize the puzzle when the page loads
     window.addEventListener('load', () => {
-      new PuzzleGame('puzzle.jpg', 3, 3); // 3x3 grid, adjust as needed
+      // Parameters: image path, rows, columns, next page URL
+      new PuzzleGame('puzzle.jpg', 3, 3, 'next-page.html');
     });
   </script>
 </body>

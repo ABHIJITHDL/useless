@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Discover Your Path - Talent Calculator</title>
+    <style>
+        :root {
+            --bg-primary: #0f1117;
+            --bg-secondary: #1a1d24;
+            --accent-purple: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 800px;
+            padding: 2rem;
+        }
+        .puzzle-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin: 20px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .intro-text {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+        .highlight {
+            color: var(--accent-purple);
+            font-weight: 600;
+        }
+        .btn {
+            background: var(--accent-purple);
+            color: var(--text-primary);
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+        .btn:disabled {
+            background: var(--bg-secondary);
+            cursor: not-allowed;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+        }
+        .puzzle-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="game-container">
+        <div class="puzzle-card">
+            <h2 class="puzzle-title">Discover Your Hidden Potential</h2>
+            <p class="intro-text">
+                Everyone has unique strengths waiting to be discovered. Let's explore your natural inclinations and find what makes you shine. Sometimes the most unexpected combinations lead to extraordinary paths!
+            </p>
+            <form id="talentForm">
+                <div class="form-group">
+                    <label for="interest">What captures your attention the most?</label>
+                    <select id="interest" name="interest">
+                        <option value="">Select your interest</option>
+                        <option value="problem-solving">Solving Complex Problems</option>
+                        <option value="creative">Creating or Designing Things</option>
+                        <option value="helping">Helping and Teaching Others</option>
+                        <option value="organizing">Planning and Organizing</option>
+                        <option value="exploring">Exploring and Discovering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="environment">Where do you feel most energized?</label>
+                    <select id="environment" name="environment">
+                        <option value="">Select your preferred environment</option>
+                        <option value="team">Working with a Team</option>
+                        <option value="independent">Working Independently</option>
+                        <option value="outdoors">Being Outdoors</option>
+                        <option value="tech">Working with Technology</option>
+                        <option value="creative-space">In Creative Spaces</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="challenge">What kind of challenges excite you?</label>
+                    <select id="challenge" name="challenge">
+                        <option value="">Select your preferred challenge</option>
+                        <option value="technical">Technical Puzzles</option>
+                        <option value="creative">Creative Projects</option>
+                        <option value="social">Social Impact</option>
+                        <option value="business">Business Ventures</option>
+                        <option value="research">Research and Discovery</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="learning">How do you best learn new things?</label>
+                    <select id="learning" name="learning">
+                        <option value="">Select your learning style</option>
+                        <option value="hands-on">By Doing (Hands-on)</option>
+                        <option value="visual">Through Visuals</option>
+                        <option value="reading">Reading and Research</option>
+                        <option value="discussion">Through Discussion</option>
+                        <option value="teaching">By Teaching Others</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Discover Your Path</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('talentForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            window.location.href = 'sapne.html';
+        });
+    </script>
+</body>
+</html>
