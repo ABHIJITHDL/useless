@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #000;
+      color: white;
+    }
+
+    .password-dots {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+    }
+
+    .dot.filled {
+      background-color: #fff;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 20px;
+      max-width: 300px;
+      width: 100%;
+    }
+
+    .key {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .key:active {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .key.special {
+      background: transparent;
+      font-size: 16px;
+    }
+
+    .message {
+      height: 30px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      color: #ff3b30;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header {
+      font-size: 24px;
+      margin-bottom: 40px;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">Enter A Number AND Remember This</div>
+  <div class="password-dots">
+    <div class="dot"></div>
+  </div>
+  <div class="message"></div>
+  <div class="keypad">
+    <button class="key">1</button>
+    <button class="key">2</button>
+    <button class="key">3</button>
+    <button class="key">4</button>
+    <button class="key">5</button>
+    <button class="key">6</button>
+    <button class="key">7</button>
+    <button class="key">8</button>
+    <button class="key">9</button>
+    <button class="key special"></button>
+    <button class="key">0</button>
+    <button class="key special">⌫</button>
+  </div>
+
+  <script>
+    const correctPin = '123456'; // Change this to set the correct PIN
+    let currentPin = '';
+    const dots = document.querySelectorAll('.dot');
+    const keys = document.querySelectorAll('.key');
+    const message = document.querySelector('.message');
+
+    function updateDots() {
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('filled', index < currentPin.length);
+      });
+    }
+
+
+    function checkPin() {
+        window.location.href=("game2.html");
+        sessionStorage.setItem("lastpin", currentPin);
+    }
+
+    keys.forEach(key => {
+      key.addEventListener('click', () => {
+        const value = key.textContent;
+        
+        if (value === '⌫') {
+          currentPin = currentPin.slice(0, -1);
+          updateDots();
+        } else if (value !== '') {
+          if (currentPin.length < 1) {
+            currentPin += value;
+            updateDots();
+            if (currentPin.length === 1) {
+              checkPin();
+            }
+          }
+        }
+      });
+    });
+
+    // Disable keyboard input
+    document.addEventListener('keydown', (e) => {
+      e.preventDefault();
+    });
+  </script>
+</body>
+</html>
