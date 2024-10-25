@@ -2,6 +2,15 @@
 <html>
 <head>
   <style>
+            :root {
+            --bg-primary: #0f1117;
+            --bg-secondary: #1a1d24;
+            --accent-purple: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
     * {
       margin: 0;
       padding: 0;
@@ -85,10 +94,14 @@
       margin-bottom: 40px;
       color: white;
     }
+
+    .accent-purple{
+            color: var(--accent-purple);
+        }
   </style>
 </head>
 <body>
-  <div class="header">Enter A Number AND Remember This</div>
+  <div class="header">Enter A <span class="accent-purple">Number</span> AND Remember This</div>
   <div class="password-dots">
     <div class="dot"></div>
   </div>

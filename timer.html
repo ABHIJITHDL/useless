@@ -109,7 +109,7 @@
                 counter++;
                 document.getElementById('counter').innerText = counter;
                 if (counter === 41) {
-                    alert("Important Notification! Close this to continue...");
+                    alert("Congratulations! You have successfully wasted 40 seconds of you life. Now, please continue.");
                 }
                 if (counter === 60) {
                     document.getElementById('message').innerText = "You can now stop the counter.";
@@ -140,12 +140,13 @@
             } else if (counter === 42) {
                 document.getElementById('message').innerText = "You stopped it at 42 seconds! Well done!";
                 clearInterval(interval);
+                window.location.href = 'dream.html';
             } else if (counter >= 60 && counter < 75) {
                 document.getElementById('message').innerText = "Just kidding! You can't stop it now.";
                 document.getElementById('stop-button').disabled = true;
                 canStop = false;
             } else if (counter >= 75) {
-                window.location.href = 'prize.html';
+                window.location.href = 'dream.html';
             } else {
                 document.getElementById('message').innerText = `You missed it! You stopped at ${counter} seconds.`;
                 document.getElementById('stop-button').disabled = true;

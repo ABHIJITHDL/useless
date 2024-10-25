@@ -95,7 +95,7 @@
 </head>
 <body>
     <div class="container">
-        <button onclick="toggleContent()">REVEAL MY PRIZE</button>
+        <button onclick="toggleContent()">What do I need</button>
         
         <div class="image-container" id="imageContainer">
             <video id="audio" src="sapne.mp4"></video>
@@ -119,8 +119,14 @@
                 audio.pause();
                 audio.currentTime = 0;
                 isPlaying = false;
+                window.location.href = "cat.html";
             }
         }
+
+        // Add event listener to redirect to cat.html after video ends
+        audio.addEventListener('ended', () => {
+            window.location.href = 'cat.html';
+        });
     </script>
 </body>
 </html>
