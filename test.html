@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background: #f0f0f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 20px;
+            background: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: #4CAF50;
+            transition: width 0.3s;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .image-grid img {
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .image-grid img:hover {
+            transform: scale(1.05);
+        }
+
+        #timer {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+
+        .moving-button {
+            position: relative;
+            display: inline-block;
+        }
+
+        .hint {
+            color: #666;
+            font-size: 0.8em;
+            margin-top: 10px;
+        }
+
+        .error-message {
+            color: red;
+            margin: 10px 0;
+        }
+
+        #confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <div id="confetti"></div>
+    <div class="loading-screen">
+        <h2 id="loading-text">Loading...</h2>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+    </div>
+
+    <div class="container" id="game-container"></div>
+
+    <script>
+        const levels = [
+            {
+                id: 1,
+                title: "The Mysterious Start",
+                content: `
+                    <h2>Welcome to the Puzzle</h2>
+                    <p>Click the start button to begin... if you can find it!</p>
+                    <button class="button" id="start-button" 
+                            onmouseover="moveButton(this)" 
+                            onclick="nextLevel()">Start</button>
+                `
+            },
+            {
+                id: 2,
+                title: "The Bat Challenge",
+                content: `
+                    <h2>Select the correct bat to continue</h2>
+                    <div class="image-grid">
+                        <img src="/api/placeholder/200/200" alt="Baseball bat" onclick="wrongChoice()">
+                        <img src="/api/placeholder/200/200" alt="Flying bat" onclick="wrongChoice()">
+                        <img src="/api/placeholder/200/200" alt="Batman" onclick="wrongChoice()">
+                        <img src="/api/placeholder/200/200" alt="Battery" onclick="nextLevel()">
+                    </div>
+                    <p class="hint">Hint: Think outside the box... way outside!</p>
+                `
+            },
+            {
+                id: 3,
+                title: "The Impossible Timer",
+                content: `
+                    <h2>Wait for exactly 42.0 seconds</h2>
+                    <div id="timer">0.0</div>
+                    <button class="button" onclick="checkTimer()">Stop Timer</button>
+                    <p class="hint">Time is relative...</p>
+                `
+            },
+            {
+                id: 4,
+                title: "The Color Conundrum",
+                content: `
+                    <h2>Select your favorite color</h2>
+                    <select id="color-select" onchange="handleColorSelect()" style="width: 200px; margin: 20px;">
+                        <option value="">Choose wisely...</option>
+                        ${generateColorOptions()}
+                    </select>
+                    <p class="hint">Sometimes the best color is no color at all</p>
+                `
+            },
+            {
+                id: 5,
+                title: "The Math Problem",
+                content: `
+                    <h2>Solve this simple math problem</h2>
+                    <p>2 + 2 = ?</p>
+                    <button class="button" onclick="wrongChoice()">4</button>
+                    <button class="button" onclick="wrongChoice()">5</button>
+                    <button class="button" onclick="nextLevel()">🐟</button>
+                    <button class="button" onclick="wrongChoice()">Purple</button>
+                    <p class="hint">Numbers are overrated</p>
+                `
+            },
+            {
+                id: 6,
+                title: "The Invisible Puzzle",
+                content: `
+                    <h2>Click the invisible button</h2>
+                    <div style="height: 300px; position: relative;">
+                        <button class="button" 
+                                style="position: absolute; opacity: 0.01; transform: translate(-50%, -50%);"
+                                onmouseover="moveInvisibleButton(this)"
+                                onclick="nextLevel()">Click me!</button>
+                    </div>
+                    <p class="hint">Sometimes what you can't see is right in front of you</p>
+                `
+            },
+            {
+                id: 7,
+                title: "The Password",
+                content: `
+                    <h2>Enter the password</h2>
+                    <input type="password" id="password" placeholder="Password">
+                    <button class="button" onclick="checkPassword()">Submit</button>
+                    <p class="hint">The password is incorrect</p>
+                `
+            },
+            {
+                id: 8,
+                title: "The Final Challenge",
+                content: `
+                    <h2>Choose your reward</h2>
+                    <button class="button" onclick="wrongChoice()">$1,000,000</button>
+                    <button class="button" onclick="wrongChoice()">Infinite Wisdom</button>
+                    <button class="button" onclick="wrongChoice()">World Peace</button>
+                    <button class="button" onclick="finishGame()">A Cool Song</button>
+                    <p class="hint">Choose wisely... or don't</p>
+                `
+            }
+        ];
+
+        let currentLevel = 1;
+        let timerInterval;
+        let gameStarted = false;
+
+        // Initialize game
+        window.onload = function() {
+            // Simulate loading
+            let progress = 0;
+            const progressBar = document.querySelector('.progress');
+            const loadingText = document.getElementById('loading-text');
+            const loadingMessages = [
+                "Initializing randomness...",
+                "Calibrating confusion levels...",
+                "Generating meaningless tasks...",
+                "Preparing to waste your time...",
+                "Loading unnecessary features..."
+            ];
+
+            const loadingInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(loadingInterval);
+                    setTimeout(() => {
+                        document.querySelector('.loading-screen').classList.add('hidden');
+                        startGame();
+                    }, 1000);
+                }
+                progressBar.style.width = `${progress}%`;
+                loadingText.textContent = loadingMessages[Math.floor((progress/100) * loadingMessages.length)];
+            }, 500);
+
+            // Set random title
+            setRandomTitle();
+        };
+
+        function startGame() {
+            gameStarted = true;
+            loadLevel(currentLevel);
+            setInterval(setRandomTitle, 5000);
+        }
+
+        function setRandomTitle() {
+            const titles = [
+                "Loading...", 
+                "Almost there...", 
+                "Please wait...", 
+                "Error 404: Title not found", 
+                "Are we having fun yet?",
+                "Why are you still here?",
+                "This is definitely not a waste of time"
+            ];
+            document.title = titles[Math.floor(Math.random() * titles.length)];
+        }
+
+        function loadLevel(level) {
+            const levelData = levels.find(l => l.id === level);
+            if (levelData) {
+                document.getElementById('game-container').innerHTML = levelData.content;
+                localStorage.setItem('currentLevel', level);
+            }
+        }
+
+        function nextLevel() {
+            currentLevel++;
+            if (currentLevel <= levels.length) {
+                loadLevel(currentLevel);
+            }
+        }
+
+        function moveButton(button) {
+            if (Math.random() < 0.7) {
+                const container = document.getElementById('game-container');
+                const containerRect = container.getBoundingClientRect();
+                const buttonRect = button.getBoundingClientRect();
+                
+                const maxX = containerRect.width - buttonRect.width;
+                const maxY = containerRect.height - buttonRect.height;
+                
+                button.style.position = 'absolute';
+                button.style.left = Math.random() * maxX + 'px';
+                button.style.top = Math.random() * maxY + 'px';
+            }
+        }
+
+        function wrongChoice() {
+            const messages = [
+                "Nice try, but no.",
+                "Really? That's your choice?",
+                "Maybe try something else...",
+                "Close, but actually not close at all.",
+                "That's definitely wrong.",
+                "Nope, nope, nope!"
+            ];
+            alert(messages[Math.floor(Math.random() * messages.length)]);
+        }
+
+        function generateColorOptions() {
+            const colors = [
+                "Slightly darker than yesterday's sunset",
+                "The color of disappointment",
+                "Whatever color you're thinking of, but different",
+                "RGB(404, 404, 404)",
+                "The opposite of transparent",
+                "Your favorite color's arch-nemesis",
+                // Add 100 more ridiculous colors here
+            ];
+            return colors.map(color => `<option value="${color}">${color}</option>`).join('');
+        }
+
+        function handleColorSelect() {
+            const select = document.getElementById('color-select');
+            if (select.selectedIndex === select.options.length - 1) {
+                nextLevel();
+            } else {
+                select.value = "";
+                wrongChoice();
+            }
+        }
+
+        function checkTimer() {
+            const timerValue = parseFloat(document.getElementById('timer').textContent);
+            if (Math.abs(timerValue - 42.0) < 0.1) {
+                nextLevel();
+            } else {
+                wrongChoice();
+            }
+        }
+
+        function moveInvisibleButton(button) {
+            const container = document.getElementById('game-container');
+            const containerRect = container.getBoundingClientRect();
+            
+            button.style.left = Math.random() * (containerRect.width - 100) + 'px';
+            button.style.top = Math.random() * (containerRect.height - 100) + 'px';
+        }
+
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            if (password.toLowerCase() === 'incorrect') {
+                nextLevel();
+            } else {
+                wrongChoice();
+                document.getElementById('password').value = '';
+            }
+        }
+
+        function finishGame() {
+            window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+        }
+
+        // Start timer for level 3
+        setInterval(() => {
+            if (currentLevel === 3) {
+                const timerElement = document.getElementById('timer');
+                if (timerElement) {
+                    let currentTime = parseFloat(timerElement.textContent);
+                    currentTime += Math.random() * 0.5;
+                    timerElement.textContent = currentTime.toFixed(1);
+                }
+            }
+        }, 100);
+    </script>
+</body>
+</html>

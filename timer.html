@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Level 1 - I Troll U</title>
+    <style>
+        :root {
+            --bg-primary: #0f1117;
+            --bg-secondary: #1a1d24;
+            --accent-purple: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --option1: rgba(139, 92, 246, 0.1);
+            --option2: rgba(139, 92, 246, 0.15);
+            --option3: rgba(139, 92, 246, 0.2);
+            --option4: rgba(139, 92, 246, 0.25);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            max-width: 800px;
+            padding: 2rem;
+        }
+        .puzzle-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .btn {
+            background: var(--accent-purple);
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: var(--accent-hover);
+        }
+        .btn:disabled {
+            background: var(--bg-secondary);
+            cursor: not-allowed;
+        }
+        .counter {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="game-container">
+        <div class="puzzle-card">
+            <h2 class="puzzle-title">Stop the Counter at 42 Seconds</h2>
+            <div class="counter" id="counter">0</div>
+            <button class="btn" id="stop-button" onclick="stopCounter()">Stop Counter</button>
+            <div class="message" id="message"></div>
+        </div>
+    </div>
+    <script>
+        let counter = 0;
+        let interval;
+        let canStop = true;
+
+        function startCounter() {
+            interval = setInterval(() => {
+                counter++;
+                document.getElementById('counter').innerText = counter;
+                if (counter === 40) {
+                    alert("Important Notification! Close this to continue...");
+                }
+                if (counter === 60) {
+                    document.getElementById('message').innerText = "You can now stop the counter.";
+                    document.getElementById('stop-button').disabled = false;
+                    canStop = true;
+                }
+                if (counter === 75) {
+                    document.getElementById('message').innerText = "You can now stop the counter for real.";
+                    document.getElementById('stop-button').disabled = false;
+                    canStop = true;
+                }
+            }, 1000);
+        }
+
+        function stopCounter() {
+            if (!canStop) return;
+
+            if (counter === 42) {
+                document.getElementById('message').innerText = "You stopped it at 42 seconds! Well done!";
+                clearInterval(interval);
+            } else if (counter === 60) {
+                document.getElementById('message').innerText = "Just kidding! You can't stop it now.";
+                document.getElementById('stop-button').disabled = true;
+                canStop = false;
+            } else if (counter >= 75) {
+                window.location.href = 'bat.html';
+            } else {
+                document.getElementById('message').innerText = `You missed it! You stopped at ${counter} seconds.`;
+                document.getElementById('stop-button').disabled = true;
+                canStop = false;
+            }
+        }
+
+        startCounter();
+    </script>
+</body>
+</html>
