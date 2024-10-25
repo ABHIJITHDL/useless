@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>I Troll U</title>
+    <style>
+        :root {
+            --bg-primary: #0f1117;
+            --bg-secondary: #1a1d24;
+            --accent-purple: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --option1: rgba(139, 92, 246, 0.1);
+            --option2: rgba(139, 92, 246, 0.15);
+            --option3: rgba(139, 92, 246, 0.2);
+            --option4: rgba(139, 92, 246, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: var(--bg-secondary);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            width: 200px;
+            height: 6px;
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 30%;
+            height: 100%;
+            background: var(--accent-purple);
+            border-radius: 20px;
+            transition: width 0.3s ease;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 100px auto 2rem;
+            padding: 2rem;
+        }
+
+        .puzzle-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .puzzle-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .puzzle-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            background: var(--accent-purple);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .option-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .option-card:nth-child(1) {
+            background: var(--option1);
+        }
+
+        .option-card:nth-child(2) {
+            background: var(--option2);
+        }
+
+        .option-card:nth-child(3) {
+            background: var(--option3);
+        }
+
+        .option-card:nth-child(4) {
+            background: var(--option4);
+        }
+
+        .option-card:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: var(--accent-purple);
+        }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 12px;
+            z-index: 1000;
+            display: none;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            z-index: 999;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+                margin-top: 80px;
+            }
+            
+            .puzzle-card {
+                padding: 1.5rem;
+            }
+            
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .options-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="#" class="logo">I Troll U</a>
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="puzzle-card">
+            <h2 class="puzzle-title">Puzzle #1: Spot the Difference</h2>
+            <p>Select the correct bat to prove you're human:</p>
+            <div class="options-grid">
+                <div class="option-card">Baseball Bat</div>
+                <div class="option-card">Fruit Bat</div>
+                <div class="option-card">Batman</div>
+                <div class="option-card">Battery</div>
+            </div>
+            <button class="btn">Submit Answer</button>
+        </div>
+
+        <div class="puzzle-card">
+            <h2 class="puzzle-title">Next Challenge</h2>
+            <p>More trolling awaits...</p>
+            <button class="btn">Start Challenge</button>
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+    <div class="modal">
+        <h2>Congratulations!</h2>
+        <p>Or is it...?</p>
+        <button class="btn">Continue</button>
+    </div>
+
+    <script>
+        const progress = document.querySelector('.progress');
+        const updateProgress = (value) => {
+            progress.style.width = `${value}%`;
+        }
+
+        const toggleModal = (show) => {
+            const modal = document.querySelector('.modal');
+            const overlay = document.querySelector('.overlay');
+            modal.style.display = show ? 'block' : 'none';
+            overlay.style.display = show ? 'block' : 'none';
+        }
+
+        document.querySelectorAll('.option-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.option-card').forEach(c => {
+                    c.style.borderColor = 'rgba(255, 255, 255, 0.05)';
+                });
+                card.style.borderColor = 'var(--accent-purple)';
+            });
+        });
+    </script>
+</body>
+</html>
