@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            height: 100vh;
+            background: #000;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow: hidden;
+            display: flex;
+        }
+
+        #container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: none;
+        }
+
+        #darkness {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            pointer-events: none;
+        }
+
+        .header {
+            position: fixed;
+            top: 40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 24px;
+            z-index: 100;
+        }
+
+        .password-dots {
+            position: fixed;
+            top: 100px;
+            left: 0;
+            right: 0;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .dot.filled {
+            background-color: #ffffff;
+        }
+
+        .message {
+            position: fixed;
+            top: 150px;
+            left: 0;
+            right: 0;
+            height: 30px;
+            text-align: center;
+            font-size: 16px;
+            color: #ffff;
+            z-index: 100;
+        }
+
+        .key {
+            margin: 10px;
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(0, 0, 0, 0.1);
+            color: rgb(0, 0, 0);
+            font-size: 24px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .key:active {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+
+        <div class="header">Enter PIN</div>
+        <div class="password-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <div class="message"></div>
+
+        <div id="darkness"></div>
+    </div>
+
+    <script>
+        const correctPin = '123456';
+        let p='';
+        var currentPin = sessionStorage.getItem('currentpin');
+
+        const dots = document.querySelectorAll('.dot');
+        const message = document.querySelector('.message');
+
+        // Create floating buttons
+        const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '⌫'];
+        const buttons = numbers.map(num => {
+            const button = document.createElement('button');
+            button.className = 'key';
+            button.textContent = num;
+            document.body.appendChild(button);
+            return {
+                element: button,
+                x: Math.random() * (window.innerWidth - 60),
+                y: Math.random() * (window.innerHeight - 60),
+                dx: (Math.random() - 0.5) * 2,
+                dy: (Math.random() - 0.5) * 2
+            };
+        });
+
+        function updateDots() {
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('filled', index < currentPin.length);
+            });
+        }
+
+        function resetPin() {
+            window.location.href="game1.html";
+        }
+        function rsetPin() {
+            window.location.href="prize.html";
+        }
+        function checkPin() {
+            var pin = sessionStorage.getItem('lastpin');         
+
+            if (p === pin) {
+                message.style.color = '#4cd964';
+                message.textContent = 'Success!';
+                setTimeout(rsetPin, 1500);
+            } else {
+                message.style.color = '#ff3b30';
+                message.textContent = 'Incorrect PIN';
+                setTimeout(() => {
+                    resetPin();
+                }, 1500);
+            }
+        }
+
+        // Animate buttons
+        function animate() {
+            buttons.forEach(button => {
+                button.x += button.dx;
+                button.y += button.dy;
+
+                // Bounce off walls
+                if (button.x <= 0 || button.x >= window.innerWidth - 60) {
+                    button.dx *= -1;
+                    button.x = Math.max(0, Math.min(button.x, window.innerWidth - 60));
+                }
+                if (button.y <= 200 || button.y >= window.innerHeight - 60) {
+                    button.dy *= -1;
+                    button.y = Math.max(200, Math.min(button.y, window.innerHeight - 60));
+                }
+
+                button.element.style.transform = `translate(${button.x}px, ${button.y}px)`;
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        // Add click handlers
+        buttons.forEach(button => {
+            button.element.addEventListener('click', () => {
+                const value = button.element.textContent;
+
+                    if (currentPin.length < 6) {
+                        currentPin += value;
+                        p=value;
+                        updateDots();
+                        checkPin();
+                    
+                    }
+            });
+        });
+
+        // Start animation
+        animate();
+
+        // Disable keyboard input
+        document.addEventListener('keydown', (e) => {
+            e.preventDefault();
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            buttons.forEach(button => {
+                button.x = Math.min(button.x, window.innerWidth - 60);
+                button.y = Math.min(button.y, window.innerHeight - 60);
+            });
+        });
+
+        const container = document.getElementById('container');
+        const darkness = document.getElementById('darkness');
+
+        container.addEventListener('mousemove', e => {
+            const rect = container.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            darkness.style.background = `radial-gradient(circle 110px at ${x}px ${y}px, 
+        transparent 0%, 
+        rgba(0, 0, 0, 0.97) 70%, 
+        rgba(0, 0, 0, 1) 100%)`;
+        });
+
+        // Update dots initially
+        updateDots();
+    </script>
+</body>
+
+</html>
