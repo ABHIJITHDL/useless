@@ -1,0 +1,216 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image and Audio Player</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .image-container {
+            max-width: 500px;
+            margin-top: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1.5s ease-in-out, visibility 1.5s;
+        }
+
+        .image-container.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: scale(0.95);
+            transition: transform 5.0s ease-in-out;
+        }
+
+        .image-container.show img {
+            transform: scale(1);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button onclick="toggleContent()">REVEAL MY PRIZE</button>
+        
+        <div class="image-container" id="imageContainer">
+            <img src="image.jpeg" alt="Your Image">
+            <audio id="audio" src="your-song.mp3"></audio>
+            
+        </div>
+    </div>
+
+    <script>
+        let isPlaying = false;
+        const audio = document.getElementById('audio');
+        const imageContainer = document.getElementById('imageContainer');
+
+        function toggleContent() {
+            if (!isPlaying) {
+                // Show image with transition and play music
+                imageContainer.classList.add('show');
+                audio.play();
+                isPlaying = true;
+            } else {
+                // Hide image and pause music
+                imageContainer.classList.remove('show');
+                audio.pause();
+                audio.currentTime = 0;
+                isPlaying = false;
+            }
+        }
+    </script>
+</body>
+</html>
+ -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Image and Audio Player</title>
+     <style>
+         :root {
+             --bg-primary: #0f1117;
+             --bg-secondary: #1a1d24;
+             --accent-purple: #8b5cf6;
+             --accent-hover: #7c3aed;
+             --text-primary: #ffffff;
+             --text-secondary: #94a3b8;
+             --card-bg: rgba(255, 255, 255, 0.05);
+         }
+ 
+         * {
+             margin: 0;
+             padding: 0;
+             box-sizing: border-box;
+             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+         }
+ 
+         body {
+             background: var(--bg-primary);
+             color: var(--text-primary);
+             min-height: 100vh;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+         }
+ 
+         .container {
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             gap: 20px;
+             padding: 2rem;
+             background: var(--bg-secondary);
+             border-radius: 12px;
+             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+         }
+ 
+         .image-container {
+             max-width: 500px;
+             margin-top: 20px;
+             opacity: 0;
+             visibility: hidden;
+             transition: opacity 1.5s ease-in-out, visibility 1.5s;
+             background: var(--card-bg);
+             border-radius: 12px;
+             padding: 1rem;
+             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+         }
+ 
+         .image-container.show {
+             opacity: 1;
+             visibility: visible;
+         }
+ 
+         .image-container img {
+             width: 100%;
+             height: auto;
+             border-radius: 8px;
+             transform: scale(0.95);
+             transition: transform 5.0s ease-in-out;
+         }
+ 
+         .image-container.show img {
+             transform: scale(1);
+         }
+ 
+         button {
+             padding: 0.8rem 1.5rem;
+             font-size: 16px;
+             background: var(--accent-purple);
+             color: var(--text-primary);
+             border: none;
+             border-radius: 8px;
+             cursor: pointer;
+             transition: all 0.3s ease;
+             font-weight: 500;
+         }
+ 
+         button:hover {
+             background: var(--accent-hover);
+         }
+ 
+     </style>
+ </head>
+ <body>
+     <div class="container">
+         <button onclick="toggleContent()">REVEAL MY PRIZE</button>
+         
+         <div class="image-container" id="imageContainer">
+             <img src="suresh_k.jpeg" alt="Your Image">
+             <p class="reveal-text">NINGAL WEBSITE NOKKI IRI NJN PRIZE EDTHIT VARAAM</p>
+             <audio id="audio" src="paninneer.mp3"></audio>
+         </div>
+     </div>
+ 
+     <script>
+         let isPlaying = false;
+         const audio = document.getElementById('audio');
+         const imageContainer = document.getElementById('imageContainer');
+ 
+         function toggleContent() {
+             if (!isPlaying) {
+                 // Show image with transition and play music
+                 imageContainer.classList.add('show');
+                 audio.play();
+                 isPlaying = true;
+             } else {
+                 // Hide image and pause music
+                 imageContainer.classList.remove('show');
+                 audio.pause();
+                 audio.currentTime = 0;
+                 isPlaying = false;
+             }
+         }
+     </script>
+ </body>
+ </html>
+ 
