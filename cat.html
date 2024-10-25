@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naughty Cat Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: rgba(139, 92, 246, 0.2);
+            border-color: var(--accent-purple);
+            overflow: hidden;
+            text-align: center;
+            align-items: center;
+        }
+
+        .cat {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            visibility: hidden;
+            transform-origin: center;
+        }
+
+        .cat img {
+            width: 70px;
+            transition: transform 0.3s ease;
+        }
+
+        .bag img {
+            width: 120px;
+            cursor: pointer;
+            transition: transform 0.5s ease;
+        }
+
+        .bag img.open {
+            transform: scaleY(0.8);
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        #nextPage {
+            margin-top: 30px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="bag" id="bag">
+            <img src="images/bags-removebg-preview.png" alt="Bag" id="bagImage">
+        </div>
+        <div class="cat" id="cat">
+            <img src="images/cat-removebg-preview.png" alt="Naughty Cat" id="catImage">
+        </div>
+        <div id="message" class="message">Click on the bag to release the cat!</div>
+    </div>
+
+    <script>
+        const bag = document.getElementById('bag');
+        const cat = document.getElementById('cat');
+        const catImg = cat.querySelector('img');
+        const message = document.getElementById('message');
+        const nextPageButton = document.getElementById('nextPage');
+
+        let catOut = false;
+        let animationFrame;
+        let startTime;
+        const duration = 10000; // 10 seconds of movement
+
+        // New variables for smooth random movement
+        let currentX = 0;
+        let currentY = 0;
+        let targetX = 0;
+        let targetY = 0;
+        let velocityX = 0;
+        let velocityY = 0;
+        const smoothness = 0.05; // Lower = smoother movement
+        const maxSpeed = 500;     // Maximum speed of movement
+        const changeDirectionInterval = 500; // Time between direction changes (ms)
+
+        bag.addEventListener('click', () => {
+            if (!catOut) {
+                bag.querySelector('img').classList.add('open');
+                message.textContent = "Catch the cat if you can!";
+                releaseCat();
+                catOut = true;
+            }
+        });
+
+        function releaseCat() {
+            cat.style.visibility = 'visible';
+            startTime = Date.now();
+            const container = document.querySelector('.container');
+            currentX = container.offsetWidth / 2;
+            currentY = container.offsetHeight / 2;
+            cat.style.left = `${currentX}px`;
+            cat.style.top = `${currentY}px`;
+            
+            // Start random movement
+            setNewRandomTarget();
+            setInterval(setNewRandomTarget, changeDirectionInterval);
+            moveCatRandomly();
+
+            setTimeout(() => {
+                message.textContent = "You are fooled!";
+                returnToBag();
+            }, duration);
+        }
+
+        function setNewRandomTarget() {
+            const container = document.querySelector('.container');
+            const maxX = container.offsetWidth - cat.offsetWidth;
+            const maxY = container.offsetHeight - cat.offsetHeight;
+            
+            // Add some randomness to target position
+            const padding = 50; // Keep away from edges
+            targetX = Math.random() * (maxX - 2 * padding) + padding;
+            targetY = Math.random() * (maxY - 2 * padding) + padding;
+        }
+
+        function moveCatRandomly() {
+            const container = document.querySelector('.container');
+            const elapsed = Date.now() - startTime;
+
+            if (elapsed < duration) {
+                // Calculate direction to target
+                const dx = targetX - currentX;
+                const dy = targetY - currentY;
+
+                // Update velocity with smoothing
+                velocityX += (dx * smoothness - velocityX) * smoothness;
+                velocityY += (dy * smoothness - velocityY) * smoothness;
+
+                // Limit speed
+                const speed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+                if (speed > maxSpeed) {
+                    velocityX = (velocityX / speed) * maxSpeed;
+                    velocityY = (velocityY / speed) * maxSpeed;
+                }
+
+                // Update position
+                currentX += velocityX;
+                currentY += velocityY;
+
+                // Add some slight wobble
+                const wobbleX = Math.sin(elapsed * 0.01) * 9;
+                const wobbleY = Math.cos(elapsed * 0.01) * 3;
+
+                // Apply position
+                cat.style.left = `${currentX + wobbleX}px`;
+                cat.style.top = `${currentY + wobbleY}px`;
+
+                // Flip cat image based on movement direction
+                if (velocityX > 0) {
+                    catImg.style.transform = 'scaleX(1)';
+                } else if (velocityX < 0) {
+                    catImg.style.transform = 'scaleX(-1)';
+                }
+
+                animationFrame = requestAnimationFrame(moveCatRandomly);
+            }
+        }
+
+        function returnToBag() {
+            cancelAnimationFrame(animationFrame);
+
+            const bagPosition = bag.getBoundingClientRect();
+            const containerPosition = document.querySelector('.container').getBoundingClientRect();
+
+            const targetX = bagPosition.left - containerPosition.left + (bag.offsetWidth / 2) - (cat.offsetWidth / 2);
+            const targetY = bagPosition.top - containerPosition.top + (bag.offsetHeight / 2) - (cat.offsetHeight / 2);
+
+            cat.style.transition = 'all 1s ease';
+            cat.style.left = `${targetX}px`;
+            cat.style.top = `${targetY}px`;
+            catImg.style.transform = 'scaleX(1)';
+
+            setTimeout(() => {
+                cat.style.visibility = 'hidden';
+                bag.querySelector('img').classList.remove('open');
+                message.textContent = "The cat is back in the bag!";
+                window.location.href="game1.html";
+            }, 1000);
+        }
+
+        nextPageButton.addEventListener('click', () => {
+            window.location.href = 'nextpage.html';
+        });
+    </script>
+</body>
+</html>
