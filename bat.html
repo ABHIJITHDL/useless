@@ -31,6 +31,8 @@
 
         .container {
             max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
             padding: 2rem;
         }
 
@@ -53,6 +55,7 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
             margin: 1.5rem 0;
+            justify-content: center;
         }
 
         /* Ensuring consistent size for option-card and larger images */
@@ -119,6 +122,19 @@
         .btn:hover {
             background: var(--accent-hover);
         }
+
+        .hint {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        .troll-message {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: var(--accent-purple);
+        }
     </style>
 </head>
 <body>
@@ -141,9 +157,11 @@
                 </div>
             </div>
             
-            <p class="hint" style="padding-bottom:2rem"><i>Hint: "The bat is invisible and right under your nose."</i></p>
+            <p class="hint" style="padding-bottom:2rem; max-width:800px;"><i>Hint: "The bat is invisible and right under your nose."</i></p>
             <button class="btn submit-btn">Submit Answer</button>
             <button class="btn hint-btn">Get a Hint</button>
+            <div class="hint" id="hint"></div>
+            <div class="troll-message" id="troll-message">You've been trolled! Redirecting...</div>
         </div>
     </div>
 
@@ -187,10 +205,12 @@
         // Submit button logic: troll the user after attempts
         document.querySelector('.submit-btn').addEventListener('click', () => {
             attempts++;
-            if (attempts < maxAttempts) {
+            if (attempts === 4) {
+                hintText.innerText = "Oh! Try again, maybe I wasn't listening properly😄.";
+            } else if (attempts < maxAttempts) {
                 alert(`Nope! That's not the real bat.`);
             } else {
-                window.location.href = 'timer.html'; // Redirect to timer.html after 7 attempts
+                showTrollMessage();
             }
         });
 
@@ -204,6 +224,14 @@
         hiddenBat.addEventListener('click', () => {
             document.querySelector('.modal').style.display = 'block';
         });
+
+        function showTrollMessage() {
+            const trollMessage = document.getElementById('troll-message');
+            trollMessage.style.display = 'block';
+            setTimeout(() => {
+                window.location.href = 'timer.html'; // Replace with the actual next page URL
+            }, 3000);
+        }
     </script>
 </body>
 </html>
