@@ -3,15 +3,6 @@
 
 <head>
     <style>
-        :root {
-            --bg-primary: #0f1117;
-            --bg-secondary: #1a1d24;
-            --accent-purple: #8b5cf6;
-            --accent-hover: #7c3aed;
-            --text-primary: #ffffff;
-            --text-secondary: #94a3b8;
-            --card-bg: rgba(255, 255, 255, 0.05);
-        }
         * {
             margin: 0;
             padding: 0;
@@ -115,17 +106,13 @@
             background: rgba(255, 255, 255, 0.3);
             transform: scale(1.1);
         }
-
-        .accent-purple{
-            color: var(--accent-purple);
-        }
     </style>
 </head>
 
 <body>
     <div id="container">
 
-        <div class="header">Enter The Final <span class="accent-purple">PIN</span></div>
+        <div class="header">Enter PIN</div>
         <div class="password-dots">
             <div class="dot"></div>
             <div class="dot"></div>
@@ -141,7 +128,7 @@
 
     <script>
         const correctPin = '123456';
-        let p='';
+        let p = '';
         var currentPin = sessionStorage.getItem('currentpin');
 
         const dots = document.querySelectorAll('.dot');
@@ -170,18 +157,16 @@
         }
 
         function resetPin() {
-            window.location.href="game1.html";
+            window.location.href = "game1.html";
         }
-        function rsetPin() {
-            window.location.href="prize.html";
-        }
+
         function checkPin() {
-            var pin = sessionStorage.getItem('lastpin');         
+            var pin = sessionStorage.getItem('lastpin');
 
             if (p === pin) {
                 message.style.color = '#4cd964';
                 message.textContent = 'Success!';
-                setTimeout(rsetPin, 1500);
+                setTimeout(resetPin, 1500);
             } else {
                 message.style.color = '#ff3b30';
                 message.textContent = 'Incorrect PIN';
@@ -218,13 +203,13 @@
             button.element.addEventListener('click', () => {
                 const value = button.element.textContent;
 
-                    if (currentPin.length < 6) {
-                        currentPin += value;
-                        p=value;
-                        updateDots();
-                        checkPin();
-                    
-                    }
+                if (currentPin.length < 6) {
+                    currentPin += value;
+                    p = value;
+                    updateDots();
+                    checkPin();
+
+                }
             });
         });
 
@@ -247,16 +232,30 @@
         const container = document.getElementById('container');
         const darkness = document.getElementById('darkness');
 
-        container.addEventListener('mousemove', e => {
-            const rect = container.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
+        // Mousemove and touchmove event for flashlight effect
+        function handleMove(e) {
+            let x, y;
+            if (e.type === 'mousemove') {
+                x = e.clientX;
+                y = e.clientY;
+            } else if (e.type === 'touchmove') {
+                x = e.touches[0].clientX;
+                y = e.touches[0].clientY;
+            }
 
-            darkness.style.background = `radial-gradient(circle 110px at ${x}px ${y}px, 
-        transparent 0%, 
-        rgba(0, 0, 0, 0.97) 70%, 
-        rgba(0, 0, 0, 1) 100%)`;
-        });
+            const rect = container.getBoundingClientRect();
+            const offsetX = x - rect.left;
+            const offsetY = y - rect.top;
+
+            darkness.style.background = `radial-gradient(circle 110px at ${offsetX}px ${offsetY}px, 
+                transparent 0%, 
+                rgba(0, 0, 0, 0.97) 70%, 
+                rgba(0, 0, 0, 1) 100%)`;
+        }
+
+        // Attach both mouse and touch listeners
+        container.addEventListener('mousemove', handleMove);
+        container.addEventListener('touchmove', handleMove);
 
         // Update dots initially
         updateDots();
