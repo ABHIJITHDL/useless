@@ -1,46 +1,64 @@
 <img width="1280" alt="readme-banner" src="https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c">
 
-# [Project Name] 🎯
+# I Troll U 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: NULL
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Abhijith D L - TKM COLLEGE OF ENGINEERING, KOLLAM
+- Member 2: Muhammed Aslam L - TKM COLLEGE OF ENGINEERING, KOLLAM
+- Member 3: Sreehari Saji - TKM COLLEGE OF ENGINEERING, KOLLAM
 
 ### Project Description
-[2-3 lines about what your project does]
+I Troll U, a fun and interactive web-based puzzle game designed to challenge your wits and sense of humor. This project is a collection of various puzzles and games that will keep you entertained while testing your problem-solving skills.
+I Troll U is a playful project that combines humor with puzzles. The goal is to solve a series of challenges that range from spotting differences to stopping a counter at a specific time. Each puzzle is designed to be tricky and fun, often with a humorous twist.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+Problem of impatience in the society and testing your patience.
+Impatience is a problem that is exponentially growing in the society.
+Impatiance is useless, hence the project we build is useless.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+We test your patience with:
+Spot the Difference: Identify the correct bat among several options.
+Counter Challenge: Stop the counter at exactly 42 seconds.
+Funny Ambition Selection: Choose your branch, habit, ambition, and superpower in a humorous way.
+Loading Screen: Experience a funny and interactive loading screen with random messages.
+Video Playback: Watch a video and get redirected to the next challenge.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- HTML, CSS, JavaScript
+- Frontend-Full Stack
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+- Nill
 
 ### Implementation
 For Software:
 # Installation
-[commands]
+To run this project locally, follow these steps:
+
+Clone the repository: sh git clone https://github.com/<your-username>/i-troll-u.git 
 
 # Run
-[commands]
+Open the index.html file in your web browser to start the game. Navigate through the puzzles and enjoy the humorous challenges.
+
+Example Pages
+index.html: The main entry point with a funny loading screen.
+bat.html: The "Spot the Difference" puzzle.
+timer.html: The counter challenge.
+sapne.html: Video playback with redirection.
+dream.html: A motivational message after completing a challenge.
+
+OR
+
+you can directly run the website through this link: https://abhijithdl.github.io/useless
+
 
 ### Project Documentation
 For Software:
@@ -56,27 +74,11 @@ For Software:
 *Add caption explaining what this shows*
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+index.html -> bat.html -> timer.html -> dream.html -> sapne.html -> cat.html -> game1.html -> game2.html -> game3.html -> prize.html
 
 For Hardware:
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
+Nill
 
 ### Project Demo
 # Video
@@ -84,12 +86,12 @@ For Hardware:
 *Explain what the video demonstrates*
 
 # Additional Demos
-[Add any extra demo materials/links]
+Nill
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Abhijith D L: index.html,bat.html,timer.html,dream.html
+- Muhammed Aslam L: sapne.html,cat.html,prize.html
+- Sreehari Saji: game1.html,gaame2.html,game3.html,cat.html
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
