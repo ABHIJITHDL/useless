@@ -226,6 +226,9 @@
         function resetPin() {
             window.location.href = "game1.html";
         }
+        function rsetPin() {
+            window.location.href = "prize.html";
+        }
 
         function checkPin() {
             var pin = sessionStorage.getItem('lastpin');
@@ -233,7 +236,7 @@
             if (p === pin) {
                 message.style.color = '#4cd964';
                 message.textContent = 'Success!';
-                setTimeout(resetPin, 1500);
+                setTimeout(rsetPin, 1500);
             } else {
                 message.style.color = '#ff3b30';
                 message.textContent = 'Incorrect PIN';
