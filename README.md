@@ -3,6 +3,7 @@
 Welcome to **I Troll U**, a fun and interactive web-based puzzle game designed to challenge your wits and sense of humor. This project is a collection of various puzzles and games that will keep you entertained while testing your problem-solving skills.
 
 ### Remember this works best in desktops or laptops
+The project is available at: [https://abhijithdl.github.io/useless/](https://abhijithdl.github.io/useless/)
 
 ## Introduction
 **I Troll U** is a playful project that combines humor with puzzles. The goal is to solve a series of challenges that range from spotting differences to stopping a counter at a specific time. Each puzzle is designed to be tricky and fun, often with a humorous twist.
