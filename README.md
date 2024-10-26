@@ -66,6 +66,7 @@ you can directly run the website through this link: [https://abhijithdl.github.i
 ### Project Documentation
 For Software:
 
+All screenshots in: https://github.com/ABHIJITHDL/useless/tree/main/images/readmeMedia
 # Screenshots (Add at least 3)
 <img width="900" alt="index" src="https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/index1.png">
 *The index page is loaded initially which shows loading of some useless things. Just random funny description mocking usual sites.*
