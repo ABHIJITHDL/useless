@@ -33,6 +33,10 @@
         .container {
             width: 800px;
             padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center items horizontally */
+            justify-content: center; /* Center items vertically */
         }
         .puzzle-card {
             background: var(--bg-secondary);
@@ -40,6 +44,9 @@
             padding: 20px;
             margin: 20px 0;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center items horizontally */
         }
         .btn {
             background: var(--accent-purple);
@@ -97,7 +104,6 @@
                 <audio id="audio" src="velachil.mp3"></audio>
             </div>
         </div>
-        
     </div>
     <script>
         let counter = 0;
