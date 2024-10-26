@@ -77,6 +77,8 @@ For Software:
 *Add caption explaining what this shows*
 
 # Diagrams
+For Software:
+
 index.html -> bat.html -> timer.html -> dream.html -> sapne.html -> cat.html -> game1.html -> game2.html -> game3.html -> prize.html
 
 For Hardware:
