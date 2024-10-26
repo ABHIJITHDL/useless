@@ -23,17 +23,17 @@ Impatiance is useless, hence the project we build is useless.
 
 ### The Solution (that nobody asked for)
 We test your patience with:
-Spot the Difference: Identify the correct bat among several options.
-Counter Challenge: Stop the counter at exactly 42 seconds.
-Funny Ambition Selection: Choose your branch, habit, ambition, and superpower in a humorous way.
-Loading Screen: Experience a funny and interactive loading screen with random messages.
-Video Playback: Watch a video and get redirected to the next challenge.
+- Spot the Difference: Identify the correct bat among several options.
+- Counter Challenge: Stop the counter at exactly 42 seconds.
+- Funny Ambition Selection: Choose your branch, habit, ambition, and superpower in a humorous way.
+- Loading Screen: Experience a funny and interactive loading screen with random messages.
+- Video Playback: Watch a video and get redirected to the next challenge.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- HTML, CSS, JavaScript
-- Frontend-Full Stack
+- 'HTML', 'CSS', 'JavaScript'
+- 'Frontend-Full_Stack'
 
 For Hardware:
 - Nill
@@ -43,21 +43,24 @@ For Software:
 # Installation
 To run this project locally, follow these steps:
 
-Clone the repository: sh git clone https://github.com/<your-username>/i-troll-u.git 
+**Clone the repository**:
+    ```sh
+    git clone https://github.com/<your-username>/i-troll-u.git
+    ```
 
 # Run
-Open the index.html file in your web browser to start the game. Navigate through the puzzles and enjoy the humorous challenges.
+Open the 'index.html' file in your web browser to start the game. Navigate through the puzzles and enjoy the humorous challenges.
 
-Example Pages
-index.html: The main entry point with a funny loading screen.
-bat.html: The "Spot the Difference" puzzle.
-timer.html: The counter challenge.
-sapne.html: Video playback with redirection.
-dream.html: A motivational message after completing a challenge.
+### Example Pages
+- **index.html**: The main entry point with a funny loading screen.
+- **bat.html**: The "Spot the Difference" puzzle.
+- **timer.html**: The counter challenge.
+- **sapne.html**: Video playback with redirection.
+- **dream.html**: A motivational message after completing a challenge.
 
 OR
 
-you can directly run the website through this link: https://abhijithdl.github.io/useless
+you can directly run the website through this link: [https://abhijithdl.github.io/useless/](https://abhijithdl.github.io/useless/)
 
 
 ### Project Documentation
