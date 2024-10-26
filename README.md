@@ -67,26 +67,26 @@ you can directly run the website through this link: [https://abhijithdl.github.i
 For Software:
 
 # Screenshots (Add at least 3)
-<img width="900" alt="index" src="[https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c](https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/index1.png)">
+<img width="900" alt="index" src="https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/index1.png">
 *The index page is loaded initially which shows loading of some useless things. Just random funny description mocking usual sites.*
 
-<img width="900" alt="index" src="[https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/bat1.png](https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/bat1.png)">
+<img width="900" alt="index" src="https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/bat1.png">
 *Then the bat.html loads which asks to select of bat from different kinds of bats like cricket bat batman battery. It is all about a certain number of clicks after which next page is loaded. Till then error is popped.*
 
-<img width="900" alt="index" src="[https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c](https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/timer1.png)">
+<img width="900" alt="index" src="https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/timer1.png">
 *Next page is timer asking to stop timer at 42s. Patience is tested waiting. If clicked before it leads to dialogue of Mukesh which is velachil edakaruth ketto. At 40th second an error pops which diverts user attention to that and missing 42 at counter. Then they should wait for a while testing patience to load next page.*
 
-<img width="900" alt="index" src="[https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c](https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/dream2.png)">
+<img width="900" alt="index" src="https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/dream2.png">
 *Then we have the dream page where ask about personal interests and it loads a video of motivation by Instagram fame Benjamin (shibudinam).*
 
-<img width="900" alt="index" src="[https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c](https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/cat1.png)">
+<img width="900" alt="index" src="https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/cat1.png">
 *Then cat page is loaded. A bag is asked to open and cat is released. Ask the user to catch but they cannot as it moves randomly and at last cat itself move into bag fooling user.*
 
-<img width="900" alt="index" src="[https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c](https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/game21.png)">
+<img width="900" alt="index" src="https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/game21.png">
 *Then we have password game where asked to enter single number and remember. The next 6 digit pin but 6th pin is same as first one input and they should find with flashlight in screen.*
-<img width="900" alt="index" src="[https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c](https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/game31.png)">
+<img width="900" alt="index" src="https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/game31.png">
 
-<img width="900" alt="index" src="[https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c](https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/prize1.png)">
+<img width="900" alt="index" src="https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/prize1.png">
 *Then atlast we have prize page but it loads convincing star Suresh Krishna who is a Malayalam actor and currently trending as convincing star in malayalam movies with the song made trending by him(moham kondaal)*
 
 # Diagrams
