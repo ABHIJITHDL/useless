@@ -49,7 +49,7 @@ To run this project locally, follow these steps:
     ```
 
 # Run
-Open the 'index.html' file in your web browser to start the game. Navigate through the puzzles and enjoy the humorous challenges.
+Open the `index.html` file in your web browser to start the game. Navigate through the puzzles and enjoy the humorous challenges.
 
 ### Example Pages
 - **index.html**: The main entry point with a funny loading screen.
