@@ -32,8 +32,8 @@ We test your patience with:
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- 'HTML', 'CSS', 'JavaScript'
-- 'Frontend-Full_Stack'
+- `HTML`, `CSS`, `JavaScript`
+- `Frontend-Full_Stack`
 
 For Hardware:
 - Nill
