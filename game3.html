@@ -3,110 +3,177 @@
 
 <head>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-        }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        user-select: none;
+    }
 
-        body {
-            height: 100vh;
-            background: #000;
-            color: white;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            overflow: hidden;
-            display: flex;
-        }
+    body {
+        height: 100vh;
+        background: #000;
+        color: white;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        overflow: hidden;
+        display: flex;
+    }
 
-        #container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            background: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: none;
-        }
+    #container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: none;
+    }
 
-        #darkness {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            pointer-events: none;
-        }
+    #darkness {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        pointer-events: none;
+    }
 
+    .header {
+        position: fixed;
+        top: 40px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 24px;
+        z-index: 100;
+    }
+
+    .password-dots {
+        position: fixed;
+        top: 100px;
+        left: 0;
+        right: 0;
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        z-index: 100;
+    }
+
+    .dot {
+        width: 12px;
+        height: 12px;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        transition: background-color 0.2s;
+    }
+
+    .dot.filled {
+        background-color: #ffffff;
+    }
+
+    .message {
+        position: fixed;
+        top: 150px;
+        left: 0;
+        right: 0;
+        height: 30px;
+        text-align: center;
+        font-size: 16px;
+        color: #ffff;
+        z-index: 100;
+    }
+
+    .key {
+        margin: 10px;
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(0, 0, 0, 0.1);
+        color: rgb(0, 0, 0);
+        font-size: 24px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .key:active {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+    }
+
+    /* Media Query for small screens (e.g., phones) */
+    @media only screen and (max-width: 600px) {
         .header {
-            position: fixed;
-            top: 40px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 24px;
-            z-index: 100;
+            font-size: 20px;
         }
 
-        .password-dots {
-            position: fixed;
-            top: 100px;
-            left: 0;
-            right: 0;
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            z-index: 100;
+        .dot {
+            width: 8px;
+            height: 8px;
+        }
+
+        .message {
+            font-size: 14px;
+        }
+
+        .key {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+        }
+    }
+
+    /* Media Query for medium screens (e.g., tablets) */
+    @media only screen and (min-width: 601px) and (max-width: 900px) {
+        .header {
+            font-size: 22px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+        }
+
+        .message {
+            font-size: 15px;
+        }
+
+        .key {
+            width: 55px;
+            height: 55px;
+            font-size: 22px;
+        }
+    }
+
+    /* Media Query for large screens (e.g., desktops) */
+    @media only screen and (min-width: 901px) {
+        .header {
+            font-size: 24px;
         }
 
         .dot {
             width: 12px;
             height: 12px;
-            border: 2px solid #fff;
-            border-radius: 50%;
-            transition: background-color 0.2s;
-        }
-
-        .dot.filled {
-            background-color: #ffffff;
         }
 
         .message {
-            position: fixed;
-            top: 150px;
-            left: 0;
-            right: 0;
-            height: 30px;
-            text-align: center;
             font-size: 16px;
-            color: #ffff;
-            z-index: 100;
         }
 
         .key {
-            margin: 10px;
-            position: absolute;
             width: 60px;
             height: 60px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(0, 0, 0, 0.1);
-            color: rgb(0, 0, 0);
             font-size: 24px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
+    }
+</style>
 
-        .key:active {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
-        }
-    </style>
 </head>
 
 <body>
