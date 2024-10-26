@@ -103,7 +103,8 @@ Nill
 <video width="1200" controls>
   <source src="https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/NULL_DEMO.mp4" type="video/mp4">
 </video>
-[https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/NULL_DEMO.mp4](https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/NULL_DEMO.mp4)
+https://github.com/ABHIJITHDL/useless/blob/main/images/readmeMedia/NULL_DEMO.mp4
+
 *The index page is loaded initially which shows loading of some useless things. Just random funny description mocking usual sites. Then the bat.html loads which asks to select of bat from different kinds of bats like cricket bat batman battery. It is all about a certain number of clicks after which next page is loaded. Till then error is popped. Next page is timer asking to stop timer at 42s. Patience is tested waiting. If clicked before it leads to dialogue of Mukesh which is velachil edakaruth ketto. At 40th second an error pops which diverts user attention to that and missing 42 at counter. Then they should wait for a while testing patience to load next page. Then we have the dream page where ask about personal interests and it loads a video of motivation by Instagram fame Benjamin (shibudinam). Then cat page is loaded. A bag is asked to open and cat is released. Ask the user to catch but they cannot as it moves randomly and at last cat itself move into bag fooling user. Then we have password game where asked to enter single number and remember. The next 6 digit pin but 6th pin is same as first one input and they should find with flashlight in screen. Then atlast we have prize page but it loads convincing star Suresh Krishna who is a Malayalam actor and currently trending as convincing star in malayalam movies with the song made trending by him(moham kondaal)*
 
 # Additional Demos
